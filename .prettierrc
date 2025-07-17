@@ -1,0 +1,6 @@
+{
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindConfig": "e:\\Project-CV-2\\manage-the-wild\\tailwind.config.js",
+  "singleQuote": true,
+  "trailingComma": "es5"
+}
