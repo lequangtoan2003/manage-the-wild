@@ -23,10 +23,4 @@ const Button = ({ size, variation, children, ...props }) => {
     </button>
   );
 };
-
-Button.defaultProps = {
-  size: 'medium',
-  variation: 'primary',
-};
-
 export default Button;
