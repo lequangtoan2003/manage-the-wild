@@ -1,39 +1,28 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
-
+import { createCabin } from '../../services/apiCabins';
+import toast from 'react-hot-toast';
 import Error from '../../ui/Error';
-import useCreateCabin from './useCreateCabin';
-import useEditCabin from './useEditCabin';
 
-export default function CreateCabinForm({ cabinToEdit = {} }) {
-  const { createCabin, isCreating } = useCreateCabin();
-  const { editCabin, isEditing } = useEditCabin();
-  const isWorking = isCreating || isEditing;
-  const { id: editId, ...editValues } = cabinToEdit;
-  const isEditSession = Boolean(editId);
-  const { register, handleSubmit, reset, getValues, formState } = useForm({
-    defaultValues: isEditSession ? editValues : {},
-  });
+export default function CreateCabinForm() {
+  const { register, handleSubmit, reset, getValues, formState } = useForm();
   const { errors } = formState;
+  const queryClient = useQueryClient();
+
+  const { mutate, isLoading: isCreating } = useMutation({
+    mutationFn: createCabin,
+    onSuccess: () => {
+      toast.success('Cabin created successfully');
+      queryClient.invalidateQueries({ queryKey: ['cabins'] });
+      reset();
+    },
+    onError: (err) => {
+      toast.error(err.message || 'Error creating cabin');
+    },
+  });
+
   function onSubmit(data) {
-    const image = typeof data.image === 'string' ? data.image : data.image[0];
-    if (isEditSession)
-      editCabin(
-        { newCabinData: { ...data, image }, id: editId },
-        {
-          onSuccess: () => {
-            reset();
-          },
-        }
-      );
-    else
-      createCabin(
-        { ...data, image: image },
-        {
-          onSuccess: () => {
-            reset();
-          },
-        }
-      );
+    mutate({ ...data, image: data.image[0] });
   }
   function onError(errors) {
     console.log('Form errors:', errors);
@@ -59,7 +48,7 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
         <input
           className="rounded-lg border-2 outline-none"
           type="number"
-          disabled={isWorking}
+          disabled={isCreating}
           id="maxCapacity"
           {...register('maxCapacity', {
             required: 'This field is required',
@@ -78,7 +67,7 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
         <input
           className="rounded-lg border-2 outline-none"
           type="number"
-          disabled={isWorking}
+          disabled={isCreating}
           id="regularPrice"
           {...register('regularPrice', {
             required: 'This field is required',
@@ -97,7 +86,7 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
         <input
           className="rounded-lg border-2 outline-none"
           type="number"
-          disabled={isWorking}
+          disabled={isCreating}
           id="discount"
           defaultValue={0}
           {...register('discount', {
@@ -114,7 +103,7 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
         <input
           className="rounded-lg border-2 outline-none"
           type="text"
-          disabled={isWorking}
+          disabled={isCreating}
           id="description"
           {...register('description', { required: 'This field is required' })}
         />
@@ -128,12 +117,10 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
           <input
             className="max-w-[296px] rounded-lg border-2 outline-none"
             type="file" // Đổi thành type="file" để upload ảnh
-            disabled={isWorking}
+            disabled={isCreating}
             accept="image/*"
             id="image"
-            {...register('image', {
-              required: isEditSession ? false : 'This field is required',
-            })} // Đăng ký input này với react-hook-form
+            {...register('image')} // Đăng ký input này với react-hook-form
           />
         </div>
         {errors?.image?.message && <Error>{errors.image.message}</Error>}
@@ -151,9 +138,9 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
           <button
             type="submit"
             className="rounded-lg bg-blue-500 px-4 py-2 text-white"
-            disabled={isWorking}
+            disabled={isCreating}
           >
-            {isEditSession ? 'Update Cabin' : 'Create Cabin'}
+            Create
           </button>
         </div>
       </div>
