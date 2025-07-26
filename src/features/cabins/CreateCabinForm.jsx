@@ -1,10 +1,10 @@
+// features/cabins/CreateCabinForm.jsx
 import { useForm } from 'react-hook-form';
-
 import Error from '../../ui/Error';
 import useCreateCabin from './useCreateCabin';
 import useEditCabin from './useEditCabin';
 
-export default function CreateCabinForm({ cabinToEdit = {} }) {
+export default function CreateCabinForm({ cabinToEdit = {}, onSuccess }) {
   const { createCabin, isCreating } = useCreateCabin();
   const { editCabin, isEditing } = useEditCabin();
   const isWorking = isCreating || isEditing;
@@ -14,27 +14,32 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
     defaultValues: isEditSession ? editValues : {},
   });
   const { errors } = formState;
+
   function onSubmit(data) {
     const image = typeof data.image === 'string' ? data.image : data.image[0];
-    if (isEditSession)
+    if (isEditSession) {
       editCabin(
         { newCabinData: { ...data, image }, id: editId },
         {
           onSuccess: () => {
             reset();
+            onSuccess?.(); // Gọi onSuccess để đóng modal
           },
         }
       );
-    else
+    } else {
       createCabin(
         { ...data, image: image },
         {
           onSuccess: () => {
             reset();
+            onSuccess?.(); // Gọi onSuccess để đóng modal
           },
         }
       );
+    }
   }
+
   function onError(errors) {
     console.log('Form errors:', errors);
   }
@@ -84,7 +89,7 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
             required: 'This field is required',
             min: {
               value: 1,
-              message: 'Capacity must be at least 1',
+              message: 'Price must be at least 1',
             },
           })}
         />
@@ -127,13 +132,13 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
         <div className="">
           <input
             className="max-w-[296px] rounded-lg border-2 outline-none"
-            type="file" // Đổi thành type="file" để upload ảnh
+            type="file"
             disabled={isWorking}
             accept="image/*"
             id="image"
             {...register('image', {
               required: isEditSession ? false : 'This field is required',
-            })} // Đăng ký input này với react-hook-form
+            })}
           />
         </div>
         {errors?.image?.message && <Error>{errors.image.message}</Error>}
@@ -145,6 +150,7 @@ export default function CreateCabinForm({ cabinToEdit = {} }) {
           <button
             type="reset"
             className="text-gray-0 rounded-lg border bg-white px-4 py-2"
+            onClick={() => onSuccess?.()} // Đóng modal khi nhấn Cancel
           >
             Cancel
           </button>
