@@ -10,22 +10,33 @@ export default function UpdateSettingsForm() {
   const maxBookingLength = settings?.maxBookingLength ?? 0;
   const maxGuestsPerBooking = settings?.maxGuestsPerBooking ?? 0;
   const breakfastPrice = settings?.breakfastPrice ?? 0;
+
   // Xử lý loading và error
   const { updateSetting, isUpdating } = useUpdateSetting();
   if (isLoading) return <Spinner />;
-  if (error) return <div>Error: {error.message}</div>;
+  if (error) return <div>Lỗi: {error.message}</div>;
+
   function handleUpdate(e, field) {
     const { value } = e.target;
     if (!value) return;
-    updateSetting({
-      [field]: value,
-    });
+
+    // Chuyển đổi giá trị thành số để so sánh (vì input type="number")
+    const newValue = Number(value);
+    const currentValue = settings?.[field] ?? 0;
+
+    // Chỉ cập nhật nếu giá trị mới khác giá trị hiện tại
+    if (newValue !== currentValue) {
+      updateSetting({
+        [field]: newValue,
+      });
+    }
   }
+
   return (
     <form className="mt-2 flex flex-col gap-4 rounded-lg bg-grey-0 p-8 shadow-md">
       <div className="grid grid-cols-[20rem_1fr_1fr] gap-4">
         <label className="text-sm font-medium text-gray-700">
-          Minimum nights/booking
+          Số đêm tối thiểu/đặt phòng
         </label>
         <input
           type="number"
@@ -38,7 +49,7 @@ export default function UpdateSettingsForm() {
       </div>
       <div className="grid grid-cols-[20rem_1fr_1fr] gap-4">
         <label className="text-sm font-medium text-gray-700">
-          Maximum nights/booking
+          Số đêm tối đa/đặt phòng
         </label>
         <input
           type="number"
@@ -51,7 +62,7 @@ export default function UpdateSettingsForm() {
       </div>
       <div className="grid grid-cols-[20rem_1fr_1fr] gap-4">
         <label className="text-sm font-medium text-gray-700">
-          Maximum guests/booking
+          Số khách tối đa/đặt phòng
         </label>
         <input
           type="number"
@@ -64,7 +75,7 @@ export default function UpdateSettingsForm() {
       </div>
       <div className="grid grid-cols-[20rem_1fr_1fr] gap-4">
         <label className="text-sm font-medium text-gray-700">
-          Breakfast price
+          Giá bữa sáng
         </label>
         <input
           type="number"
