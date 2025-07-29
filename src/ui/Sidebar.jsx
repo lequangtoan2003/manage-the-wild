@@ -1,3 +1,4 @@
+import Uploader from '../data/Uploader';
 import MainNav from './MainNav';
 
 export default function Sidebar() {
@@ -5,6 +6,7 @@ export default function Sidebar() {
     <aside className="bg-gray-0 row-span-full flex flex-col gap-8 border-r border-gray-200 p-8">
       Sidebar
       <MainNav />
+      <Uploader />
     </aside>
   );
 }
