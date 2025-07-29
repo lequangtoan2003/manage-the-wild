@@ -4,6 +4,7 @@ import CabinTable from '../features/cabins/CabinTable';
 import Button from '../ui/Button';
 import CreateCabinForm from '../features/cabins/CreateCabinForm';
 import Modal from '../ui/Model'; // Import Modal component
+import CabinTableOperations from '../features/cabins/CabinTableOperations';
 
 export default function Cabins() {
   const [showForm, setShowForm] = useState(false);
@@ -12,7 +13,9 @@ export default function Cabins() {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div>Cabin</div>
-        <div>Filter/sort</div>
+        <div>
+          <CabinTableOperations />
+        </div>
       </div>
       <div className="">
         <CabinTable />
