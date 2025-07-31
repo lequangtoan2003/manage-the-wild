@@ -10,7 +10,9 @@ export default function Bookings() {
           <BookingTableOperations />
         </div>
       </div>
-      <BookingTable />
+      <div className="">
+        <BookingTable />
+      </div>
     </div>
   );
 }

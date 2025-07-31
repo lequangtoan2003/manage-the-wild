@@ -1,14 +1,15 @@
 import Spinner from '../../ui/Spinner';
 import useBooking from './useBooking';
 import BookingRow from './BookingRow';
+import Pagination from '../../ui/Pagination';
 
 export default function BookingTable() {
-  const { isLoading, bookings } = useBooking();
+  const { isLoading, bookings, count } = useBooking();
 
   if (isLoading) return <Spinner />;
   return (
     <div className="rounded-md bg-grey-100 p-4">
-      <div className="mb-4 grid grid-cols-[0.6fr_2fr_2.4fr_1.4fr_1fr_3.2rem] gap-4 bg-white p-4">
+      <div className="mb-4 grid grid-cols-[0.6fr_2fr_2.4fr_1.4fr_1fr_3.3rem] gap-4 bg-white p-4">
         <div className="text-left font-bold text-grey-700">Cabin</div>
         <div className="text-left font-bold text-grey-700">Guest</div>
         <div className="text-left font-bold text-grey-700">Date</div>
@@ -19,6 +20,9 @@ export default function BookingTable() {
         {bookings.map((booking) => (
           <BookingRow key={booking.id} booking={booking} />
         ))}
+      </div>
+      <div className="pt-2">
+        <Pagination count={count} />
       </div>
     </div>
   );
