@@ -2,7 +2,6 @@ import { format, isToday } from 'date-fns';
 import { formatDistanceFromNow } from '../../utils/helpers';
 export default function CabinRow({
   booking: {
-
     startDate,
     endDate,
     numNights,
@@ -25,7 +24,7 @@ export default function CabinRow({
 
   return (
     <>
-      <div className="grid grid-cols-[0.6fr_2.2fr_2.4fr_1fr_1fr_0.6fr] items-center gap-4 border-b border-grey-200 py-2">
+      <div className="grid grid-cols-[0.6fr_2.3fr_2.8fr_1fr_1fr_0.6fr] items-center gap-4 border-b border-grey-200 py-2">
         <div className="text-center text-xl font-semibold text-grey-600">
           {cabinName}
         </div>
@@ -49,7 +48,7 @@ export default function CabinRow({
           </span>
         </div>
         <div
-          className={`text-center text-xl font-medium uppercase text-grey-600 ${rowClass}`}
+          className={`text-left text-xl font-medium uppercase text-grey-600 ${rowClass}`}
         >
           {status}
         </div>
