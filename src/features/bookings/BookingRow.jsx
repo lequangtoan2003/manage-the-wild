@@ -2,11 +2,13 @@ import { format, isToday } from 'date-fns';
 import { formatDistanceFromNow } from '../../utils/helpers';
 import {
   HiArrowDownOnSquare,
+  HiArrowUpOnSquare,
   HiEllipsisVertical,
   HiEye,
 } from 'react-icons/hi2';
 import { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCheckout } from '../check-in-out/useCheckout';
 
 export default function CabinRow({
   booking: {
@@ -23,6 +25,7 @@ export default function CabinRow({
   setActiveBookingId,
 }) {
   const navigate = useNavigate();
+  const { checkout, isCheckingOut } = useCheckout();
   const rowClass =
     {
       'checked-in': 'bg-green-200 w-40 rounded-full',
@@ -66,6 +69,10 @@ export default function CabinRow({
   const handleCheckInClick = () => {
     setActiveBookingId(null); // Đóng dropdown
     navigate(`/checkin/${bookingId}`);
+  };
+  const handleCheckOutClick = () => {
+    setActiveBookingId(null); // Đóng dropdown
+    checkout(bookingId);
   };
   return (
     <div className="relative grid grid-cols-[0.6fr_2.3fr_2.8fr_1fr_1fr_0.6fr] items-center gap-4 border-b border-grey-200 py-2">
@@ -120,6 +127,7 @@ export default function CabinRow({
               <HiEye className="h-5 w-5" />
               <div className="text-xs">See details</div>
             </button>
+
             {status === 'unconfirmed' && (
               <button
                 type="button"
@@ -128,6 +136,17 @@ export default function CabinRow({
               >
                 <HiArrowDownOnSquare className="h-5 w-5" />
                 <div className="text-xs">Check in</div>
+              </button>
+            )}
+            {status === 'checked-in' && (
+              <button
+                type="button"
+                className="flex w-[140px] items-center gap-2 px-4 py-2 text-left text-grey-700 hover:bg-grey-100"
+                onClick={handleCheckOutClick}
+                disabled={isCheckingOut}
+              >
+                <HiArrowUpOnSquare className="h-5 w-5" />
+                <div className="text-xs">Check out</div>
               </button>
             )}
           </div>

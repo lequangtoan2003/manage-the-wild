@@ -3,7 +3,7 @@ import { getSettings } from '../../services/apiSettings';
 
 export function useSettings() {
   const {
-    data: settings,
+    data: settings = {},
     isLoading,
     error,
   } = useQuery({
