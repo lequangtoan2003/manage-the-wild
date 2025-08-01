@@ -2,9 +2,11 @@ import Spinner from '../../ui/Spinner';
 import useBooking from './useBooking';
 import BookingRow from './BookingRow';
 import Pagination from '../../ui/Pagination';
+import { useState } from 'react';
 
 export default function BookingTable() {
   const { isLoading, bookings, count } = useBooking();
+  const [activeBookingId, setActiveBookingId] = useState(null);
 
   if (isLoading) return <Spinner />;
   return (
@@ -18,7 +20,12 @@ export default function BookingTable() {
       </div>
       <div className="rounded-md bg-white">
         {bookings.map((booking) => (
-          <BookingRow key={booking.id} booking={booking} />
+          <BookingRow
+            key={booking.id}
+            booking={booking}
+            isActive={booking.id === activeBookingId}
+            setActiveBookingId={setActiveBookingId}
+          />
         ))}
       </div>
       <div className="pt-2">
