@@ -2,13 +2,18 @@ import { useNavigate } from 'react-router-dom';
 import Spinner from '../../ui/Spinner';
 import BookingDataBox from './BookingDataBox';
 import useBookingId from './useBookingId';
-import { HiArrowDownOnSquare } from 'react-icons/hi2';
+import { HiArrowDownOnSquare, HiArrowUpOnSquare } from 'react-icons/hi2';
+import { useCheckout } from '../check-in-out/useCheckout';
 
 export default function BookingDetail() {
   const navigate = useNavigate();
   const { booking, isLoading } = useBookingId();
+  const { checkout, isCheckingOut } = useCheckout();
   if (isLoading) return <Spinner />;
   const { id: bookingId, status } = booking;
+  const handleCheckOutClick = () => {
+    checkout(bookingId);
+  };
   const rowClass =
     {
       'checked-in': 'bg-green-200 w-40 rounded-full',
@@ -64,6 +69,17 @@ export default function BookingDetail() {
           >
             <HiArrowDownOnSquare className="h-5 w-5" />
             <div className="text-xs font-semibold">Check in</div>
+          </button>
+        )}
+        {status === 'checked-in' && (
+          <button
+            type="button"
+            className="flex w-[140px] items-center gap-2 rounded-lg bg-blue-500 px-4 py-2 text-left text-grey-700 hover:bg-blue-300"
+            onClick={handleCheckOutClick}
+            disabled={isCheckingOut}
+          >
+            <HiArrowUpOnSquare className="h-5 w-5" />
+            <div className="text-xs">Check out</div>
           </button>
         )}
         <div className="max-w-[4rem]">

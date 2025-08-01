@@ -5,17 +5,30 @@ import useBookingId from '../bookings/useBookingId';
 import { useEffect, useState } from 'react';
 import { formatCurrency } from '../../utils/helpers';
 import { useCheckin } from './useCheckin';
+import { useSettings } from '../settings/apiSettings';
 
 export default function CheckinBooking() {
   const { booking, isLoading } = useBookingId();
   const [confirmPaid, setConfirmPaid] = useState(false);
+  const [addBreakfast, setAddBreakfast] = useState(false);
   const { checkin, isCheckingIn } = useCheckin();
+  const { settings, isLoading: isLoadingSettings } = useSettings();
   useEffect(() => setConfirmPaid(booking?.isPaid ?? false), [booking.isPaid]);
   const navigate = useNavigate();
   function handleCheckIn() {
     if (!confirmPaid) return;
-    checkin(bookingId);
+    if (addBreakfast) {
+      checkin({
+        bookingId,
+        breakfast: {
+          hasBreakfast: true,
+          extrasPrice: optionalBreakfastPrice,
+          totalPrice: totalPrice + optionalBreakfastPrice,
+        },
+      });
+    } else checkin({ bookingId, breakfast: {} });
   }
+
   const {
     id: bookingId,
     status,
@@ -25,7 +38,10 @@ export default function CheckinBooking() {
     hasBreakfast,
     numNights,
   } = booking;
-  if (isLoading) return <Spinner />;
+
+  const optionalBreakfastPrice =
+    settings.breakfastPrice * numNights * numGuests;
+  if (isLoading || isLoadingSettings) return <Spinner />;
   const rowClass =
     {
       'checked-in': 'bg-green-200 w-40 rounded-full',
@@ -67,6 +83,29 @@ export default function CheckinBooking() {
         </div>
       </div>
       <BookingDataBox booking={booking} />
+      {!hasBreakfast && (
+        <div className="rounded-lg bg-gray-50 p-4">
+          <label className="flex gap-2">
+            <input
+              type="checkbox"
+              checked={addBreakfast}
+              id="breakfast"
+              disabled={addBreakfast}
+              onChange={() => {
+                setAddBreakfast((add) => !add);
+                setConfirmPaid(false);
+              }}
+            />
+            <div className="flex gap-1 text-base">
+              Want to add breakfast for
+              <div className="font-semibold">
+                {' '}
+                {formatCurrency(optionalBreakfastPrice)} ?{' '}
+              </div>
+            </div>
+          </label>
+        </div>
+      )}
       <div className="rounded-lg bg-gray-50 p-4">
         <label className="flex gap-2">
           <input
@@ -79,7 +118,14 @@ export default function CheckinBooking() {
           <div className="flex gap-1 text-base">
             I confirm that{' '}
             <div className="font-semibold"> {guests.fullName} </div> has paid
-            the total amount {formatCurrency(totalPrice)}
+            the total amount of{' '}
+            {!addBreakfast
+              ? formatCurrency(totalPrice)
+              : `${formatCurrency(
+                  totalPrice + optionalBreakfastPrice
+                )} (${formatCurrency(totalPrice)} + ${formatCurrency(
+                  optionalBreakfastPrice
+                )})`}
           </div>
         </label>
       </div>
