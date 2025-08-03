@@ -5,10 +5,13 @@ import {
   HiArrowUpOnSquare,
   HiEllipsisVertical,
   HiEye,
+  HiTrash,
 } from 'react-icons/hi2';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCheckout } from '../check-in-out/useCheckout';
+import useDeleteBooking from './useDeteleBooking';
+import Model from '../../ui/Model';
 
 export default function CabinRow({
   booking: {
@@ -26,6 +29,8 @@ export default function CabinRow({
 }) {
   const navigate = useNavigate();
   const { checkout, isCheckingOut } = useCheckout();
+  const [showConfirm, setShowConfirm] = useState(false); // State cho modal xác nhận
+  const { isDeleting, deleteBooking } = useDeleteBooking();
   const rowClass =
     {
       'checked-in': 'bg-green-200 w-40 rounded-full',
@@ -41,13 +46,20 @@ export default function CabinRow({
     setActiveBookingId(isActive ? null : bookingId);
   }
 
+  // Xử lý xác nhận xóa
+  const handleConfirmDelete = () => {
+    deleteBooking(bookingId);
+    setShowConfirm(false); // Đóng modal sau khi xóa
+  };
+
   useEffect(() => {
     function handleClickOutside(e) {
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(e.target) &&
         buttonRef.current &&
-        !buttonRef.current.contains(e.target)
+        !buttonRef.current.contains(e.target) &&
+        !showConfirm // Chỉ đóng dropdown nếu modal không hiển thị
       ) {
         setActiveBookingId(null);
       }
@@ -60,8 +72,7 @@ export default function CabinRow({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isActive, setActiveBookingId]);
-
+  }, [isActive, setActiveBookingId, showConfirm]);
   const handleSeeDetailsClick = () => {
     setActiveBookingId(null); // Đóng dropdown
     navigate(`/bookings/${bookingId}`);
@@ -98,7 +109,7 @@ export default function CabinRow({
         </span>
       </div>
       <div
-        className={`text-center text-xl font-medium uppercase text-grey-600 ${rowClass}`}
+        className={`text-left text-xl font-medium uppercase text-grey-600 ${rowClass}`}
       >
         {status}
       </div>
@@ -127,7 +138,35 @@ export default function CabinRow({
               <HiEye className="h-5 w-5" />
               <div className="text-xs">See details</div>
             </button>
-
+            <button
+              onClick={() => setShowConfirm(true)} // Mở modal xác nhận khi nhấp Delete
+              disabled={isDeleting}
+              className="flex w-[140px] items-center gap-2 px-4 py-2 text-left text-grey-700 hover:bg-grey-100"
+            >
+              <HiTrash className="h-5 w-5" />
+              <div className="text-xs">Delete</div>
+            </button>
+            <Model isOpen={showConfirm} onClose={() => setShowConfirm(false)}>
+              <div className="rounded-lg bg-white p-6 shadow-lg">
+                <h2 className="mb-4 text-lg font-bold">Confirm Deletion</h2>
+                <p>Are you sure you want to delete booking?</p>
+                <div className="mt-4 flex justify-end gap-4">
+                  <button
+                    onClick={() => setShowConfirm(false)}
+                    className="rounded-lg bg-gray-200 px-4 py-2 hover:bg-gray-300"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleConfirmDelete}
+                    disabled={isDeleting}
+                    className="rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </Model>
             {status === 'unconfirmed' && (
               <button
                 type="button"

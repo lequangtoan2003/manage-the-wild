@@ -10,7 +10,7 @@ export default function Bookings() {
           <BookingTableOperations />
         </div>
       </div>
-      <div className="">
+      <div className="mx-auto max-w-screen-lg">
         <BookingTable />
       </div>
     </div>
