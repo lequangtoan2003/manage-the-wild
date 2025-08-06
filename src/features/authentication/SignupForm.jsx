@@ -1,9 +1,11 @@
 import { useForm } from 'react-hook-form';
 import Error from '../../ui/Error';
 import { useSignup } from './useSignup';
+import { useTheme } from '../../context/ThemeContext';
 
 function SignupForm() {
   const { signup, isLoading } = useSignup();
+  const { theme } = useTheme();
   const {
     register,
     formState,
@@ -42,12 +44,18 @@ function SignupForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit, onError)}
-      className="mx-auto w-full max-w-md rounded-lg bg-white p-6 shadow-md"
+      className={`mx-auto w-full max-w-md rounded-lg p-6 shadow-md ${
+        theme === 'dark'
+          ? 'bg-grey-900 text-grey-100'
+          : 'bg-white text-grey-700'
+      }`}
     >
       <div className="mb-4">
         <label
           htmlFor="fullName"
-          className="mb-1 block text-sm font-medium text-gray-700"
+          className={`mb-1 block text-sm font-medium ${
+            theme === 'dark' ? 'text-grey-200' : 'text-gray-700'
+          }`}
         >
           Full name
         </label>
@@ -55,7 +63,11 @@ function SignupForm() {
           type="text"
           id="fullName"
           disabled={isLoading}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className={`w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 ${
+            theme === 'dark'
+              ? 'border-grey-600 bg-grey-700 text-grey-100 focus:ring-blue-400'
+              : 'border-gray-300 bg-white text-gray-700 focus:ring-blue-500'
+          }`}
           {...register('fullName', { required: 'This field is required' })}
         />
         {formErrors?.fullName?.message && (
@@ -66,7 +78,9 @@ function SignupForm() {
       <div className="mb-4">
         <label
           htmlFor="email"
-          className="mb-1 block text-sm font-medium text-gray-700"
+          className={`mb-1 block text-sm font-medium ${
+            theme === 'dark' ? 'text-grey-200' : 'text-gray-700'
+          }`}
         >
           Email address
         </label>
@@ -81,7 +95,11 @@ function SignupForm() {
               message: 'Please provide a valid email address',
             },
           })}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className={`w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 ${
+            theme === 'dark'
+              ? 'border-grey-600 bg-grey-700 text-grey-100 focus:ring-blue-400'
+              : 'border-gray-300 bg-white text-gray-700 focus:ring-blue-500'
+          }`}
         />
         {formErrors?.email?.message && (
           <Error>{formErrors.email.message}</Error>
@@ -91,7 +109,9 @@ function SignupForm() {
       <div className="mb-4">
         <label
           htmlFor="password"
-          className="mb-1 block text-sm font-medium text-gray-700"
+          className={`mb-1 block text-sm font-medium ${
+            theme === 'dark' ? 'text-grey-200' : 'text-gray-700'
+          }`}
         >
           Password
         </label>
@@ -106,7 +126,11 @@ function SignupForm() {
               message: 'Password needs a minimum of 8 characters',
             },
           })}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className={`w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 ${
+            theme === 'dark'
+              ? 'border-grey-600 bg-grey-700 text-grey-100 focus:ring-blue-400'
+              : 'border-gray-300 bg-white text-gray-700 focus:ring-blue-500'
+          }`}
         />
         {formErrors?.password?.message && (
           <Error>{formErrors.password.message}</Error>
@@ -116,7 +140,9 @@ function SignupForm() {
       <div className="mb-4">
         <label
           htmlFor="passwordConfirm"
-          className="mb-1 block text-sm font-medium text-gray-700"
+          className={`mb-1 block text-sm font-medium ${
+            theme === 'dark' ? 'text-grey-200' : 'text-gray-700'
+          }`}
         >
           Repeat password
         </label>
@@ -129,7 +155,11 @@ function SignupForm() {
             validate: (value) =>
               value === getValues().password || 'Passwords need to match',
           })}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className={`w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 ${
+            theme === 'dark'
+              ? 'border-grey-600 bg-grey-700 text-grey-100 focus:ring-blue-400'
+              : 'border-gray-300 bg-white text-gray-700 focus:ring-blue-500'
+          }`}
         />
         {formErrors?.passwordConfirm?.message && (
           <Error>{formErrors.passwordConfirm.message}</Error>
@@ -141,14 +171,22 @@ function SignupForm() {
           disabled={isLoading}
           type="button"
           onClick={handleCancel}
-          className="flex-1 rounded-md bg-gray-200 py-2 text-sm text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
+          className={`flex-1 rounded-md py-2 text-sm focus:outline-none focus:ring-2 ${
+            theme === 'dark'
+              ? 'bg-grey-700 text-grey-100 hover:bg-grey-600 focus:ring-grey-400'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300 focus:ring-gray-500'
+          }`}
         >
           Cancel
         </button>
         <button
           disabled={isLoading}
           type="submit"
-          className="flex-1 rounded-md bg-blue-600 py-2 text-sm text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className={`flex-1 rounded-md py-2 text-sm text-white focus:outline-none focus:ring-2 ${
+            theme === 'dark'
+              ? 'bg-blue-700 hover:bg-blue-600 focus:ring-blue-400'
+              : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500'
+          }`}
         >
           Create new user
         </button>

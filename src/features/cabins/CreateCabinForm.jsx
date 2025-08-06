@@ -1,8 +1,8 @@
-// features/cabins/CreateCabinForm.jsx
 import { useForm } from 'react-hook-form';
 import Error from '../../ui/Error';
 import useCreateCabin from './useCreateCabin';
 import useEditCabin from './useEditCabin';
+import { useTheme } from '../../context/ThemeContext';
 
 export default function CreateCabinForm({ cabinToEdit = {}, onSuccess }) {
   const { createCabin, isCreating } = useCreateCabin();
@@ -14,6 +14,7 @@ export default function CreateCabinForm({ cabinToEdit = {}, onSuccess }) {
     defaultValues: isEditSession ? editValues : {},
   });
   const { errors } = formState;
+  const { theme } = useTheme();
 
   function onSubmit(data) {
     const image = typeof data.image === 'string' ? data.image : data.image[0];
@@ -47,12 +48,22 @@ export default function CreateCabinForm({ cabinToEdit = {}, onSuccess }) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit, onError)}
-      className="mt-2 flex flex-col gap-4 rounded-lg bg-grey-0 p-8 shadow-md"
+      className={`mt-2 flex flex-col gap-4 rounded-lg p-8 shadow-md ${
+        theme === 'dark'
+          ? 'bg-grey-800 text-grey-100'
+          : 'bg-grey-0 text-grey-700'
+      }`}
     >
       <div className="grid grid-cols-[20rem_1fr_1.2fr] gap-4">
-        <label>Cabin name</label>
+        <label className={theme === 'dark' ? 'text-grey-200' : 'text-grey-700'}>
+          Cabin name
+        </label>
         <input
-          className="rounded-lg border-2 outline-none"
+          className={`rounded-lg border-2 outline-none ${
+            theme === 'dark'
+              ? 'border-grey-600 bg-grey-700 text-grey-100 focus:border-blue-400'
+              : 'border-gray-300 bg-white text-grey-700 focus:border-blue-500'
+          }`}
           type="text"
           id="name"
           {...register('name', { required: 'This field is required' })}
@@ -60,9 +71,15 @@ export default function CreateCabinForm({ cabinToEdit = {}, onSuccess }) {
         {errors?.name?.message && <Error>{errors.name.message}</Error>}
       </div>
       <div className="grid grid-cols-[20rem_1fr_1.2fr] gap-4">
-        <label>Maximum Capacity</label>
+        <label className={theme === 'dark' ? 'text-grey-200' : 'text-grey-700'}>
+          Maximum Capacity
+        </label>
         <input
-          className="rounded-lg border-2 outline-none"
+          className={`rounded-lg border-2 outline-none ${
+            theme === 'dark'
+              ? 'border-grey-600 bg-grey-700 text-grey-100 focus:border-blue-400'
+              : 'border-gray-300 bg-white text-grey-700 focus:border-blue-500'
+          }`}
           type="number"
           disabled={isWorking}
           id="maxCapacity"
@@ -79,9 +96,15 @@ export default function CreateCabinForm({ cabinToEdit = {}, onSuccess }) {
         )}
       </div>
       <div className="grid grid-cols-[20rem_1fr_1.2fr] gap-4">
-        <label>Regular price</label>
+        <label className={theme === 'dark' ? 'text-grey-200' : 'text-grey-700'}>
+          Regular price
+        </label>
         <input
-          className="rounded-lg border-2 outline-none"
+          className={`rounded-lg border-2 outline-none ${
+            theme === 'dark'
+              ? 'border-grey-600 bg-grey-700 text-grey-100 focus:border-blue-400'
+              : 'border-gray-300 bg-white text-grey-700 focus:border-blue-500'
+          }`}
           type="number"
           disabled={isWorking}
           id="regularPrice"
@@ -98,9 +121,15 @@ export default function CreateCabinForm({ cabinToEdit = {}, onSuccess }) {
         )}
       </div>
       <div className="grid grid-cols-[20rem_1fr_1.2fr] gap-4">
-        <label>Discount</label>
+        <label className={theme === 'dark' ? 'text-grey-200' : 'text-grey-700'}>
+          Discount
+        </label>
         <input
-          className="rounded-lg border-2 outline-none"
+          className={`rounded-lg border-2 outline-none ${
+            theme === 'dark'
+              ? 'border-grey-600 bg-grey-700 text-grey-100 focus:border-blue-400'
+              : 'border-gray-300 bg-white text-grey-700 focus:border-blue-500'
+          }`}
           type="number"
           disabled={isWorking}
           id="discount"
@@ -115,9 +144,15 @@ export default function CreateCabinForm({ cabinToEdit = {}, onSuccess }) {
         {errors?.discount?.message && <Error>{errors.discount.message}</Error>}
       </div>
       <div className="grid grid-cols-[20rem_1fr_1.2fr] gap-4">
-        <label>Description for website</label>
+        <label className={theme === 'dark' ? 'text-grey-200' : 'text-grey-700'}>
+          Description for website
+        </label>
         <input
-          className="rounded-lg border-2 outline-none"
+          className={`rounded-lg border-2 outline-none ${
+            theme === 'dark'
+              ? 'border-grey-600 bg-grey-700 text-grey-100 focus:border-blue-400'
+              : 'border-gray-300 bg-white text-grey-700 focus:border-blue-500'
+          }`}
           type="text"
           disabled={isWorking}
           id="description"
@@ -128,10 +163,16 @@ export default function CreateCabinForm({ cabinToEdit = {}, onSuccess }) {
         )}
       </div>
       <div className="grid grid-cols-[20rem_1fr_1.2fr] gap-4">
-        <label>Cabin photo</label>
+        <label className={theme === 'dark' ? 'text-grey-200' : 'text-grey-700'}>
+          Cabin photo
+        </label>
         <div className="">
           <input
-            className="max-w-[296px] rounded-lg border-2 outline-none"
+            className={`max-w-[296px] rounded-lg border-2 outline-none ${
+              theme === 'dark'
+                ? 'border-grey-600 bg-grey-700 text-grey-100 focus:border-blue-400'
+                : 'border-gray-300 bg-white text-grey-700 focus:border-blue-500'
+            }`}
             type="file"
             disabled={isWorking}
             accept="image/*"
@@ -149,14 +190,22 @@ export default function CreateCabinForm({ cabinToEdit = {}, onSuccess }) {
         <div className="flex gap-3">
           <button
             type="reset"
-            className="text-gray-0 rounded-lg border bg-white px-4 py-2"
+            className={`text-gray-0 rounded-lg border px-4 py-2 transition-colors duration-200 ${
+              theme === 'dark'
+                ? 'border-grey-600 bg-grey-700 text-grey-100 hover:bg-grey-600'
+                : 'border-gray-300 bg-white text-gray-800 hover:bg-gray-200'
+            }`}
             onClick={() => onSuccess?.()} // Đóng modal khi nhấn Cancel
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="rounded-lg bg-blue-500 px-4 py-2 text-white"
+            className={`rounded-lg px-4 py-2 text-white transition-colors duration-200 ${
+              theme === 'dark'
+                ? 'bg-blue-700 hover:bg-blue-600'
+                : 'bg-blue-500 hover:bg-blue-400'
+            }`}
             disabled={isWorking}
           >
             {isEditSession ? 'Update Cabin' : 'Create Cabin'}
