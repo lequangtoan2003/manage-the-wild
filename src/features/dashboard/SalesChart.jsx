@@ -67,7 +67,7 @@ function SalesChart({ bookings, numDays }) {
   return (
     <div className="col-span-full rounded-lg bg-white p-4 shadow-md sm:p-6 md:p-8 dark:bg-gray-900">
       <div className="mb-4 text-base font-semibold text-gray-900 sm:text-lg md:text-xl dark:text-gray-100">
-        Doanh thu từ {format(allDates.at(0), 'MMM dd yyyy')} &mdash;{' '}
+        Sales from {format(allDates.at(0), 'MMM dd yyyy')} &mdash;{' '}
         {format(allDates.at(-1), 'MMM dd yyyy')}
       </div>
 
