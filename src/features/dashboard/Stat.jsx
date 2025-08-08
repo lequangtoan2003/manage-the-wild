@@ -5,7 +5,7 @@ export default function Stat({ icon, title, value, bgColor, textColor }) {
 
   return (
     <div
-      className={`m-4 grid grid-rows-[auto_auto] rounded-md border py-4 md:grid-cols-[3.5rem_1fr] lg:grid-cols-[6.4rem_1fr] ${
+      className={`m-4 grid grid-rows-[auto_auto] rounded-md border py-4 sm:grid-cols-[1rem_1fr] sm:pr-20 md:grid-cols-[3.5rem_1fr] lg:grid-cols-[6.4rem_1fr] lg:pr-1 ${
         theme === 'dark'
           ? 'border-grey-700 bg-grey-800 text-grey-100'
           : 'border-gray-100 bg-grey-0 text-grey-700'
@@ -23,7 +23,7 @@ export default function Stat({ icon, title, value, bgColor, textColor }) {
         </svg>
       </div>
       <div
-        className={`col-start-2 row-start-1 pr-2 text-xs font-medium uppercase lg:text-xs ${
+        className={`col-start-2 row-start-1 pr-1 text-xs font-medium uppercase sm:hidden sm:pr-2 md:block lg:col-start-2 lg:row-start-1 lg:pr-2 lg:text-xs ${
           theme === 'dark' ? 'text-grey-200' : 'text-grey-700'
         }`}
       >
