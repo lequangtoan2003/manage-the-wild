@@ -22,10 +22,6 @@ export default function BookingTableOperations() {
             label: 'Sort by amount (high first)',
           },
           { value: 'totalPrice-asc', label: 'Sort by amount (low first)' },
-          {
-            value: 'maxCapacity-desc',
-            label: 'Sort by capacity (High to Low)',
-          },
         ]}
       />
     </div>
