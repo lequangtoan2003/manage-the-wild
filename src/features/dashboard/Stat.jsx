@@ -1,7 +1,7 @@
-import { useTheme } from '../../context/ThemeContext'; // Thêm để sử dụng theme
+import { useTheme } from '../../context/ThemeContext';
 
 export default function Stat({ icon, title, value, bgColor, textColor }) {
-  const { theme } = useTheme(); // Lấy theme từ context
+  const { theme } = useTheme();
 
   return (
     <div

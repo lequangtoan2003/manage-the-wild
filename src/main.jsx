@@ -3,11 +3,18 @@ import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
 import { ThemeProvider } from './context/ThemeContext.jsx';
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorFallback from './ui/ErrorFallback.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider>
-      <App />
+      <ErrorBoundary
+        FallbackComponent={ErrorFallback}
+        onReset={() => window.location.replace('/')}
+      >
+        <App />
+      </ErrorBoundary>
     </ThemeProvider>
   </StrictMode>
 );
