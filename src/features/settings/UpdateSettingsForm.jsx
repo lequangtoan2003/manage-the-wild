@@ -47,89 +47,97 @@ export default function UpdateSettingsForm() {
           : 'bg-grey-0 text-grey-700'
       }`}
     >
-      <div className="grid grid-cols-[20rem_1fr_1fr] gap-4">
-        <label
-          className={`text-sm font-medium ${
-            theme === 'dark' ? 'text-grey-200' : 'text-gray-700'
-          }`}
-        >
-          Số đêm tối thiểu/đặt phòng
-        </label>
-        <input
-          type="number"
-          id="min-nights"
-          disabled={isUpdating}
-          className={`rounded-md border p-2 focus:outline-none focus:ring-2 ${
-            theme === 'dark'
-              ? 'border-grey-600 bg-grey-700 text-grey-100 focus:ring-blue-400'
-              : 'border-gray-300 bg-white text-gray-700 focus:ring-blue-500'
-          }`}
-          defaultValue={minBookingLength}
-          onBlur={(e) => handleUpdate(e, 'minBookingLength')}
-        />
+      <div className="grid grid-cols-[1fr_1fr_1fr_1fr] justify-end gap-4">
+        <div className="col-span-2 col-start-3 flex">
+          <label
+            className={`text-sm font-medium ${
+              theme === 'dark' ? 'text-grey-200' : 'text-gray-700'
+            }`}
+          >
+            Minimum nights/booking
+          </label>
+          <input
+            type="number"
+            id="min-nights"
+            disabled={isUpdating}
+            className={`w-[70%] rounded-md border p-2 focus:outline-none focus:ring-2 ${
+              theme === 'dark'
+                ? 'border-grey-600 bg-grey-700 text-grey-100 focus:ring-blue-400'
+                : 'border-gray-300 bg-white text-gray-700 focus:ring-blue-500'
+            }`}
+            defaultValue={minBookingLength}
+            onBlur={(e) => handleUpdate(e, 'minBookingLength')}
+          />
+        </div>
       </div>
-      <div className="grid grid-cols-[20rem_1fr_1fr] gap-4">
-        <label
-          className={`text-sm font-medium ${
-            theme === 'dark' ? 'text-grey-200' : 'text-gray-700'
-          }`}
-        >
-          Số đêm tối đa/đặt phòng
-        </label>
-        <input
-          type="number"
-          id="max-nights"
-          disabled={isUpdating}
-          className={`rounded-md border p-2 focus:outline-none focus:ring-2 ${
-            theme === 'dark'
-              ? 'border-grey-600 bg-grey-700 text-grey-100 focus:ring-blue-400'
-              : 'border-gray-300 bg-white text-gray-700 focus:ring-blue-500'
-          }`}
-          defaultValue={maxBookingLength}
-          onBlur={(e) => handleUpdate(e, 'maxBookingLength')}
-        />
+      <div className="grid grid-cols-[1fr_1fr_1fr_1fr] justify-end gap-4">
+        <div className="col-span-2 col-start-3 flex">
+          <label
+            className={`text-sm font-medium ${
+              theme === 'dark' ? 'text-grey-200' : 'text-gray-700'
+            }`}
+          >
+            Maximum nights/booking
+          </label>
+          <input
+            type="number"
+            id="max-nights"
+            disabled={isUpdating}
+            className={`w-[70%] rounded-md border p-2 focus:outline-none focus:ring-2 ${
+              theme === 'dark'
+                ? 'border-grey-600 bg-grey-700 text-grey-100 focus:ring-blue-400'
+                : 'border-gray-300 bg-white text-gray-700 focus:ring-blue-500'
+            }`}
+            defaultValue={maxBookingLength}
+            onBlur={(e) => handleUpdate(e, 'maxBookingLength')}
+          />
+        </div>
       </div>
-      <div className="grid grid-cols-[20rem_1fr_1fr] gap-4">
-        <label
-          className={`text-sm font-medium ${
-            theme === 'dark' ? 'text-grey-200' : 'text-gray-700'
-          }`}
-        >
-          Số khách tối đa/đặt phòng
-        </label>
-        <input
-          type="number"
-          id="max-guests"
-          disabled={isUpdating}
-          className={`rounded-md border p-2 focus:outline-none focus:ring-2 ${
-            theme === 'dark'
-              ? 'border-grey-600 bg-grey-700 text-grey-100 focus:ring-blue-400'
-              : 'border-gray-300 bg-white text-gray-700 focus:ring-blue-500'
-          }`}
-          defaultValue={maxGuestsPerBooking}
-          onBlur={(e) => handleUpdate(e, 'maxGuestsPerBooking')}
-        />
+      <div className="grid grid-cols-[1fr_1fr_1fr_1fr] justify-end gap-4">
+        <div className="col-span-2 col-start-3 flex">
+          <label
+            className={`text-sm font-medium ${
+              theme === 'dark' ? 'text-grey-200' : 'text-gray-700'
+            }`}
+          >
+            Maximum guests/booking
+          </label>
+          <input
+            type="number"
+            id="max-guests"
+            disabled={isUpdating}
+            className={`w-[70%] rounded-md border p-2 focus:outline-none focus:ring-2 ${
+              theme === 'dark'
+                ? 'border-grey-600 bg-grey-700 text-grey-100 focus:ring-blue-400'
+                : 'border-gray-300 bg-white text-gray-700 focus:ring-blue-500'
+            }`}
+            defaultValue={maxGuestsPerBooking}
+            onBlur={(e) => handleUpdate(e, 'maxGuestsPerBooking')}
+          />
+        </div>
       </div>
-      <div className="grid grid-cols-[20rem_1fr_1fr] gap-4">
-        <label
-          className={`text-sm font-medium ${
-            theme === 'dark' ? 'text-grey-200' : 'text-gray-700'
-          }`}
-        >
-          Giá bữa sáng
-        </label>
-        <input
-          type="number"
-          id="breakfast-price"
-          disabled={isUpdating}
-          className={`rounded-md border p-2 focus:outline-none focus:ring-2 ${
-            theme === 'dark'
-              ? 'border-grey-600 bg-grey-700 text-grey-100 focus:ring-blue-400'
-              : 'border-gray-300 bg-white text-gray-700 focus:ring-blue-500'
-          }`}
-          defaultValue={breakfastPrice}
-          onBlur={(e) => handleUpdate(e, 'breakfastPrice')}
-        />
+      <div className="grid grid-cols-[1fr_1fr_1fr_1fr] justify-end gap-4">
+        <div className="col-span-2 col-start-3 flex gap-16">
+          <label
+            className={`text-sm font-medium ${
+              theme === 'dark' ? 'text-grey-200' : 'text-gray-700'
+            }`}
+          >
+            Breakfast price
+          </label>
+          <input
+            type="number"
+            id="breakfast-price"
+            disabled={isUpdating}
+            className={`w-[70%] rounded-md border p-2 focus:outline-none focus:ring-2 ${
+              theme === 'dark'
+                ? 'border-grey-600 bg-grey-700 text-grey-100 focus:ring-blue-400'
+                : 'border-gray-300 bg-white text-gray-700 focus:ring-blue-500'
+            }`}
+            defaultValue={breakfastPrice}
+            onBlur={(e) => handleUpdate(e, 'breakfastPrice')}
+          />
+        </div>
       </div>
     </form>
   );

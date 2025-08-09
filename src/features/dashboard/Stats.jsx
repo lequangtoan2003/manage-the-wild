@@ -6,7 +6,7 @@ import {
 } from 'react-icons/hi2';
 import Stat from './Stat';
 import { formatCurrency } from '../../utils/helpers';
-import { useTheme } from '../../context/ThemeContext'; // Thêm để sử dụng theme
+import { useTheme } from '../../context/ThemeContext';
 
 export default function Stats({
   bookings,
@@ -14,10 +14,13 @@ export default function Stats({
   numDays,
   cabinCount,
 }) {
-  const { theme } = useTheme(); // Lấy theme từ context
+  const { theme } = useTheme();
   const numBookings = bookings.length;
+  console.log('totalprice:', bookings);
   const sales = bookings.reduce((acc, cur) => acc + cur.totalPrice, 0);
-  const chekins = confirmedStays.length;
+  console.log('sales:', sales);
+
+  const checkins = confirmedStays.length;
   const occupation =
     confirmedStays.reduce((acc, cur) => acc + cur.numNights, 0) /
     (numDays * cabinCount);
@@ -60,7 +63,7 @@ export default function Stats({
       <Stat
         title="check ins"
         icon={<HiOutlineCalendarDays />}
-        value={chekins}
+        value={checkins}
         bgColor={statColors.checkins[theme].bgColor}
         textColor={statColors.checkins[theme].textColor}
       />

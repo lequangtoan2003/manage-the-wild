@@ -51,7 +51,7 @@ function SalesChart({ bookings, numDays }) {
     if (active && payload && payload.length) {
       return (
         <div className="rounded border border-gray-300 bg-gray-100 p-2 text-sm shadow-lg md:p-3 md:text-base dark:border-gray-700 dark:bg-gray-800">
-          <p className="font-bold">{`Ngày: ${label}`}</p>
+          <p className="font-bold">{`Day: ${label}`}</p>
           <p className="text-indigo-600 dark:text-indigo-400">
             {`Total Sales: ${formatCurrency(payload[0].value)}`}
           </p>
