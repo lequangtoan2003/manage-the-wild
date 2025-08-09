@@ -12,7 +12,7 @@ import AppLayout from './ui/AppLayout';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
 import Booking from './pages/Booking';
-import CheckIn from './ui/CheckIn';
+import CheckIn from './ui/Checkin';
 import ProtectedRoute from './ui/ProtectedRoute';
 
 const queryClient = new QueryClient({
