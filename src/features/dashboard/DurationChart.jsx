@@ -6,7 +6,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from 'recharts';
-import { useTheme } from '../../context/ThemeContext'; // Thay useDarkMode bằng useTheme
+import { useTheme } from '../../context/ThemeContext';
 
 const startDataLight = [
   {

@@ -76,7 +76,8 @@ export async function getBookingsAfterDate(date) {
     .from('bookings')
     .select('created_at, totalPrice, extrasPrice')
     .gte('created_at', date)
-    .lte('created_at', getToday({ end: true }));
+    .lte('created_at', getToday({ end: true }))
+    .in('status', ['checked-in', 'checked-out']);
 
   if (error) {
     console.error(error);
