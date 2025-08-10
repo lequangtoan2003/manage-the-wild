@@ -9,14 +9,14 @@ import { formatCurrency } from '../../utils/helpers';
 import { useTheme } from '../../context/ThemeContext';
 
 export default function Stats({
+  bookinglength,
   bookings,
   confirmedStays,
   numDays,
   cabinCount,
 }) {
   const { theme } = useTheme();
-  const numBookings = bookings.length;
-  console.log('totalprice:', bookings);
+  const numBookings = bookinglength;
   const sales = bookings.reduce((acc, cur) => acc + cur.totalPrice, 0);
   console.log('sales:', sales);
 

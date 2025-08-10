@@ -44,6 +44,17 @@ export async function getBooking(id) {
   return data;
 }
 
+export async function getAllBookingsLength() {
+  const { data, error } = await supabase.from('bookings').select('*'); // Lấy toàn bộ cột từ bảng bookings
+
+  if (error) {
+    console.error(error);
+    throw new Error('Bookings could not be loaded');
+  }
+  console.log('length bookings data:', data);
+
+  return data.length; // Trả về độ dài của mảng bookings
+}
 export async function updateBooking(id, obj) {
   const { data, error } = await supabase
     .from('bookings')
